@@ -1,0 +1,43 @@
+services:
+  api:
+    build: ./backend
+    environment:
+      LOWFREQ_DATA_DIR: /data
+      LOWFREQ_ACCESS_TOKEN: ${LOWFREQ_ACCESS_TOKEN:-}
+      LOWFREQ_MAX_UPLOAD_MB: ${LOWFREQ_MAX_UPLOAD_MB:-500}
+      LOWFREQ_ANALYSIS_MAX_SECONDS: ${LOWFREQ_ANALYSIS_MAX_SECONDS:-600}
+      LOWFREQ_ANALYSIS_WORKERS: ${LOWFREQ_ANALYSIS_WORKERS:-1}
+      LOWFREQ_AUDIO_RETENTION_DAYS: ${LOWFREQ_AUDIO_RETENTION_DAYS:-30}
+      LOWFREQ_RETENTION_SWEEP_HOURS: ${LOWFREQ_RETENTION_SWEEP_HOURS:-24}
+      LOWFREQ_DISK_WARN_PERCENT: ${LOWFREQ_DISK_WARN_PERCENT:-85}
+      LOWFREQ_LLM_ENABLED: ${LOWFREQ_LLM_ENABLED:-false}
+      LOWFREQ_LLM_BASE_URL: ${LOWFREQ_LLM_BASE_URL:-}
+      LOWFREQ_LLM_API_KEY: ${LOWFREQ_LLM_API_KEY:-}
+      LOWFREQ_LLM_MODEL: ${LOWFREQ_LLM_MODEL:-}
+      LOWFREQ_LLM_TIMEOUT_S: ${LOWFREQ_LLM_TIMEOUT_S:-60}
+      LOWFREQ_LLM_MAX_TOKENS: ${LOWFREQ_LLM_MAX_TOKENS:-1500}
+      LOWFREQ_LLM_AUTO_INSIGHT: ${LOWFREQ_LLM_AUTO_INSIGHT:-false}
+    volumes:
+      - lowfreq-data:/data
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.web
+    environment:
+      LOWFREQ_HOST: ${LOWFREQ_HOST:-lowfreq.local}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  lowfreq-data:
+  caddy-data:
+  caddy-config:

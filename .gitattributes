@@ -1,0 +1,16 @@
+# 统一使用 LF 提交，Windows 检出时自动转换
+* text=auto
+
+# 二进制文件不做换行转换
+*.wav binary
+*.flac binary
+*.ogg binary
+*.mp3 binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.pdf binary
+*.docx binary
+*.zip binary
+*.db binary

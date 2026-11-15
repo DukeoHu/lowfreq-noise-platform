@@ -1,0 +1,45 @@
+[project]
+name = "lowfreq-api"
+version = "0.1.0"
+description = "Low frequency noise analysis platform - FastAPI backend"
+readme = { text = "Low frequency noise analysis platform - FastAPI backend. See the repository README for setup and usage.", content-type = "text/markdown" }
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [{ name = "The LowFreq Authors" }]
+keywords = ["acoustics", "noise", "low-frequency", "fastapi", "dsp"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Sound/Audio :: Analysis",
+]
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "SQLAlchemy>=2.0",
+    "python-multipart>=0.0.9",
+    "numpy>=1.26",
+    "scipy>=1.13",
+    "soundfile>=0.12",
+    "reportlab>=4.2",
+    "httpx>=0.27",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
